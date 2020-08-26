@@ -1,5 +1,5 @@
 # Image-presenter
-Simple Carousel like image slider with button made using JavaScript with node environment and used expressjs.
+Simple Carousel like image slider with button made using JavaScript with node environment and used expressjs, To understand basics of nodejs and expressjs.
 ## Feature
 - Ease-in hover effect over image
 - Clean and Minimal
