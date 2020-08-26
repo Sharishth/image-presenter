@@ -26,6 +26,8 @@ then go to http://localhost:3000
 *Remember to use ctrl+c instead of ctrl+z if you want to re-run the app later through terminal*
 *If you are already running an app at this localhost:3000 use command at terminal in linux*
 
-sudo kill -9 (sudo lsof -t -i:3000) replace grave accent instead of bracket
+sudo kill -9 (sudo lsof -t -i:3000) *replace grave accent instead of bracket or run*
+
+<code>sudo kill -9 $(sudo lsof -t -i:3000)</code> *Don't replace anything here*
 
 *for windows, end process or cmd/powershell running localhost*
