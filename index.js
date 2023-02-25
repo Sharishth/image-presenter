@@ -20,45 +20,52 @@ app.get(rootDir, (req, res) => {
 var pages = []
 var i
 var newDirs = []
-
-function pageNogen() {
-    for (i = 1; i < 11; i++) { //generating 10 number of pages
+const fs = require('fs');
+const imgDir = 'public/img/'
+let totalImgs = fs.readdirSync(imgDir).length // find total images and create pages and directories based on it
+//console.log(totalImgs)
+function pageNogen(n) {
+    for (i = 1; i < n+1; i++) { //generating n number of pages  from 1
         pages[i] = i
     }
 }
-pageNogen()
 
-function newDirgen() {
-    for (i = 1; i < 11; i++) { //generating 10 number of directory
+function newDirgen(n) {
+    for (i = 1; i < n+1; i++) { //generating n number of directory from 1
         newDirs[i] = rootDir + pages[i]
     }
 }
-newDirgen()
+
 //console.log(newDirs[2])
 //console.log(pages[4])
-var pageno = 1
 
-function genpage(pageno) {
+function genpage(pageno,lastpage) {
     if (pageno==1) {
         app.get(newDirs[pageno], (req, res) => {
             res.send(stylesheet + `<p>Page ${pages[pageno]}</p> <img src="img/${pageno}.jpg" width="536" height="354"> <br><br> <a href="..">Home</a> <a href="${pages[pageno+1]}">next page</a>`)
         })
     }
-    if (pageno!=10 && pageno!=1) {
+    if (pageno!=lastpage && pageno!=1) {
         app.get(newDirs[pageno], (req, res) => {
             res.send(stylesheet + `<p>Page ${pages[pageno]}</p> <img src="img/${pageno}.jpg" width="536" height="354"> <br><br> <a href="${pages[pageno-1]}">Previous page</a> <a href="..">Home</a> <a href="${pages[pageno+1]}">next page</a>`)
         })
     }
-    if (pageno==10) {
+    if (pageno==lastpage) {
         app.get(newDirs[pageno], (req, res) => {
             res.send(stylesheet + `<p>Page ${pages[pageno]}</p> <img src="img/${pageno}.jpg" width="536" height="354"> <br><br> <a href="${pages[pageno-1]}">Previous page</a> <a href="..">Home</a>`)
         })
     }
 }
 
-for (i = 1; i < 11; i++) {
-    genpage(i)
+function genPageDir(n) {
+    for (i = 1; i < n+1; i++) {
+        genpage(i,n)
+    }
 }
+
+pageNogen(totalImgs)
+newDirgen(totalImgs)
+genPageDir(totalImgs)
 
 app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}`)
